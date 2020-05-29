@@ -25,6 +25,23 @@ namespace AcessaCity.Business.Services
             _repository?.Dispose();
         }
 
+        public async Task<ReportClassification> FindRatingByUserAndReport(Guid userId, Guid reportId)
+        {
+            var rating = await _repository.FindUserClassification(userId, reportId);
+            if (rating == null)
+            {
+                rating = new ReportClassification() {
+                    Rating = 0,
+                    UserId = userId,
+                    ReportId = reportId
+                };
+
+                await _repository.Add(rating);
+            }
+
+            return rating;
+        }
+
         public async Task UpdateUserRating(Guid userId, Guid reportId, int rating)
         {
             var user = await _userRepo.GetById(userId);

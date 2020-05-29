@@ -4,6 +4,7 @@ using AcessaCity.API.Dtos.ReportClassification;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
+using AcessaCity.Business.Models;
 
 namespace AcessaCity.API.V1.Controllers
 {
@@ -18,6 +19,12 @@ namespace AcessaCity.API.V1.Controllers
             IReportClassificationService service) : base(notifier)
         {
             _service = service;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<ReportClassification>> GetUserRating([FromQuery]GetUserReportClassificationDto filter)
+        {
+            return CustomResponse(await _service.FindRatingByUserAndReport(filter.UserId, filter.ReportId));
         }
 
         [HttpPost]

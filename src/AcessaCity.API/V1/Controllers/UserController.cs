@@ -119,10 +119,10 @@ namespace AcessaCity.API.V1.Controllers
             return CustomResponse(await _repository.UserCoordinators(userId));
         }
 
-        [HttpGet("")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            var users = await _repository.Find(x => x.CityHallId == Guid.Empty);
+            var users = await _repository.Find(x => x.CityHall == null);
             return CustomResponse(users);
         }
     }

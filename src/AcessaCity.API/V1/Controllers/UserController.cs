@@ -8,6 +8,7 @@ using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
 using Microsoft.AspNetCore.Mvc;
 using AcessaCity.Business.Models;
+using System.Collections.Generic;
 
 namespace AcessaCity.API.V1.Controllers
 {
@@ -116,6 +117,13 @@ namespace AcessaCity.API.V1.Controllers
                 return NotFound();
             }
             return CustomResponse(await _repository.UserCoordinators(userId));
+        }
+
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        {
+            var users = await _repository.Find(x => x.CityHallId == Guid.Empty);
+            return CustomResponse(users);
         }
     }
 }

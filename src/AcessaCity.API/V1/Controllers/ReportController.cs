@@ -56,7 +56,8 @@ namespace AcessaCity.API.V1.Controllers
             [FromQuery]Guid city,
             [FromQuery]string street,
             [FromQuery]string neighborhood,
-            [FromQuery]Guid coordinatorId)
+            [FromQuery]Guid coordinatorId,
+            [FromQuery]Guid userId)
         {
             var fStreet = street == null ? "" : street.ToLower();
             var fNeighborhood = neighborhood == null ? "" : neighborhood.ToLower();
@@ -68,6 +69,8 @@ namespace AcessaCity.API.V1.Controllers
                 (r.CoordinatorId == coordinatorId || coordinatorId == Guid.Empty)
                 &&                
                 (r.CityId == city || city == Guid.Empty)
+                &&                
+                (r.UserId == userId || userId == Guid.Empty)
                 &&
                 (r.Street.ToLower().Contains(fStreet.ToLower()) || street == null)
                 &&

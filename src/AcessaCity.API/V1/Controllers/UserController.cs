@@ -133,7 +133,7 @@ namespace AcessaCity.API.V1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            var users = await _repository.Find(x => x.CityHall == null);
+            var users = await _repository.Find(x => x.CityHall == null && x.Active == true);
             return CustomResponse(users);
         }
     }

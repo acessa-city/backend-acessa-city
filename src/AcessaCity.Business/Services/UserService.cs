@@ -41,11 +41,11 @@ namespace AcessaCity.Business.Services
                 return newUser;
             }          
 
-            if (!user.Roles.Any())
-            {
-                Notify("Não é possível criar um usuário sem as definições de níveis de acesso");
-                return newUser;
-            }
+            // if (!user.Roles.Any())
+            // {
+            //     Notify("Não é possível criar um usuário sem as definições de níveis de acesso");
+            //     return newUser;
+            // }
 
             UserRecordArgs args = new UserRecordArgs()
             {
@@ -76,11 +76,14 @@ namespace AcessaCity.Business.Services
                 {
                     { "app_user_id", newUser.Id },
                     { "user", true },
-                    { user.Roles[0], true }
                 };
 
                 await _userRoleService.UpdateUserRole("user", newUser.Id, true);
-                await _userRoleService.UpdateUserRole(user.Roles[0], newUser.Id, true);
+                if (user.Roles?.Count > 0)
+                {
+                    claims.Add(user.Roles[0], true);                    
+                    await _userRoleService.UpdateUserRole(user.Roles[0], newUser.Id, true);                    
+                }                                
 
                 await _userRoleService.UpdateUserClaims(newUser.Id, claims);
             }

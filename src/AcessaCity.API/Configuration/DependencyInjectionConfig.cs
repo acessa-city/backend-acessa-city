@@ -1,4 +1,5 @@
 using AcessaCity.Business.App.Reports;
+using AcessaCity.Business.App.UserNotifications;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
 using AcessaCity.Business.Interfaces.Service;
@@ -53,11 +54,14 @@ namespace AcessaCity.API.Configuration
             services.AddScoped<IReportInteractionHistoryCommentaryService, ReportInteractionHistoryCommentaryService>();
             services.AddScoped<IReportInProgressRepository, ReportInProgressRepository>();
             services.AddScoped<IReportInProgressService, ReportInProgressService>();
+            services.AddScoped<IUserNotificationService, UserNotificationService>();
+            services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
             
 
             //business logic class
             services.AddScoped<ReportStatusUpdate, ReportStatusUpdate>();
             services.AddScoped<ReportCoordinatorUpdate, ReportCoordinatorUpdate>();
+            services.AddScoped<NotificationHandler, NotificationHandler>();
 
             //external services
             services.AddScoped<IGeolocationService, GeolocationService>();

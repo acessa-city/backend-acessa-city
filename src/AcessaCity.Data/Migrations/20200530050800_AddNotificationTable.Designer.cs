@@ -3,14 +3,16 @@ using System;
 using AcessaCity.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AcessaCity.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200530050800_AddNotificationTable")]
+    partial class AddNotificationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -621,9 +623,6 @@ namespace AcessaCity.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<Guid?>("InteractionHistoryId")
-                        .HasColumnType("char(36)");
-
                     b.Property<bool>("Read")
                         .HasColumnType("tinyint(1)");
 
@@ -637,8 +636,6 @@ namespace AcessaCity.Data.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("InteractionHistoryId");
 
                     b.HasIndex("ReportId");
 
@@ -853,10 +850,6 @@ namespace AcessaCity.Data.Migrations
 
             modelBuilder.Entity("AcessaCity.Business.Models.UserNotification", b =>
                 {
-                    b.HasOne("AcessaCity.Business.Models.InteractionHistory", "InteractionHistory")
-                        .WithMany()
-                        .HasForeignKey("InteractionHistoryId");
-
                     b.HasOne("AcessaCity.Business.Models.Report", "Report")
                         .WithMany()
                         .HasForeignKey("ReportId");

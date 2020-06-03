@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AcessaCity.Business.Models
 {
@@ -13,6 +14,7 @@ namespace AcessaCity.Business.Models
       public DateTime CreationDate { get; set; }
 
       public virtual IEnumerable<InteractionHistoryCommentary> Commentaries { get; set; }
+      [ForeignKey("UserId")]
       public virtual User User { get; set; }
       public virtual Report Report { get; set; }
       public virtual ReportStatus NewReportStatus { get; set; }

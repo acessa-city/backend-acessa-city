@@ -12,7 +12,7 @@ namespace AcessaCity.Business.Dto.User
         public string DisplayName { get; set; }
         public string PhotoUrl { get; set; }
         public bool Disabled { get; set; }
-        public Guid CityHallId { get; set; }
+        public Guid? CityHallId { get; set; }
         public List<string> Roles { get; set; }
     }
 }

@@ -17,15 +17,18 @@ namespace AcessaCity.API.V1.Controllers
     public class UserController : MainController
     {
         private readonly IUserRepository _repository;
+        private readonly IUserNotificationService _notificationsService;
         private readonly IUserService _service;
 
         public UserController(
             INotifier notifier,
             IUserRepository repository,
-            IUserService service) : base(notifier)
+            IUserService service,
+            IUserNotificationService notificationsService) : base(notifier)
         {
             _repository = repository;
             _service = service;
+            _notificationsService = notificationsService;
         }
 
         [HttpPost]
@@ -117,6 +120,14 @@ namespace AcessaCity.API.V1.Controllers
                 return NotFound();
             }
             return CustomResponse(await _repository.UserCoordinators(userId));
+        }
+
+        [HttpGet("{userId:guid}/notifications")]
+        public async Task<ActionResult<IEnumerable<UserNotification>>> GetUserNotifications(Guid userId)
+        {
+            return CustomResponse(
+                await _notificationsService.GetAllUnreadUserNotifications(userId)
+            );
         }
 
         [HttpGet]

@@ -81,7 +81,7 @@ namespace AcessaCity.Business.Services
                 await _userRoleService.UpdateUserRole("user", newUser.Id, true);
                 if (user.Roles?.Count > 0)
                 {
-                    claims.Add(user.Roles[0], true);                    
+                    claims.TryAdd(user.Roles[0], true);                    
                     await _userRoleService.UpdateUserRole(user.Roles[0], newUser.Id, true);                    
                 }                                
 

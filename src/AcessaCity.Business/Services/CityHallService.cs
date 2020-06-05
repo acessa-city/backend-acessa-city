@@ -92,9 +92,9 @@ namespace AcessaCity.Business.Services
             throw new System.NotImplementedException();
         }
 
-        public Task Update(CityHall category)
+        public async Task Update(CityHall cityHall)
         {
-            throw new System.NotImplementedException();
+            await _repository.Update(cityHall);
         }
     }
 }

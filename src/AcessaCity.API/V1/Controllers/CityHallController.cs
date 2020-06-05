@@ -82,6 +82,17 @@ namespace AcessaCity.API.V1.Controllers
             return Ok();
         }
 
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult> UpdateCityHall(Guid id, CityHallUpdateDto data)
+        {
+            CityHall updateCityHall = await _repository.GetById(id);
+            _mapper.Map(data, updateCityHall);
+            
+            await _service.Update(updateCityHall);            
+
+            return Ok(updateCityHall);
+        }
+
         [HttpPut("confirm-register/{id:guid}")]        
         public async Task<ActionResult> ConfirmRegister(Guid id)
         {

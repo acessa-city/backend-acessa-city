@@ -16,6 +16,7 @@ namespace AcessaCity.API.Configuration
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.ParentCategory));
 
             CreateMap<CityHall, CityHallInsertDto>().ReverseMap();
+            CreateMap<CityHall, CityHallUpdateDto>().ReverseMap();
             CreateMap<CityHall, CityHallDto>();
             CreateMap<ReportStatus, ReportStatusDto>();
             CreateMap<Report, ReportInsertDto>().ReverseMap();

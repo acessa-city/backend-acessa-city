@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
@@ -33,14 +34,20 @@ namespace AcessaCity.Business.Services
             return await _repository.GetById(id);
         }
 
+        public async Task<ReportInProgress> GetByReportId(Guid reportId)
+        {
+            var list = await _repository.Find(x => x.ReportId == reportId);
+            return list.FirstOrDefault();
+        }
+
         public Task Remove(ReportInProgress report)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(ReportInProgress report)
+        public async Task Update(ReportInProgress report)
         {
-            throw new NotImplementedException();
+           await _repository.Update(report);
         }
     }
 }

@@ -11,5 +11,7 @@ namespace AcessaCity.Business.Models
     public bool Review { get; set; }
 
     public bool InProgress { get; set; }
+
+    public bool IsDone { get; set; }
   }
 }

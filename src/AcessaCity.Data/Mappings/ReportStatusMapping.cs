@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AcessaCity.Data.Mappings
 {
-    public class ReportStatusMapping : IEntityTypeConfiguration<ReportStatus>
+    public class  ReportStatusMapping : IEntityTypeConfiguration<ReportStatus>
     {
         public void Configure(EntityTypeBuilder<ReportStatus> builder)
         {
@@ -52,7 +52,13 @@ namespace AcessaCity.Data.Mappings
                     Id = Guid.Parse("48cf5f0f-40c9-4a79-9627-6fd22018f72c"),
                     Description = "Em análise",
                     Review = true
-                }                                              
+                },
+                new ReportStatus()
+                {
+                    Id = Guid.Parse("ee6dda1a-51e2-4041-9d21-7f5c8f2e94b0"),
+                    Description = "Finalizada",
+                    
+                }                                                
             );
         }
     }

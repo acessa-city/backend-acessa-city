@@ -24,6 +24,7 @@ namespace AcessaCity.API.V1.Controllers
         private readonly IMapper _mapper;
         private readonly IGeolocationService _geolocation;
         private readonly ICityRepository _cityRepository;
+        private readonly IReportInProgressService _reportInProgressService;
         
         public ReportController(
             INotifier notifier,
@@ -31,13 +32,15 @@ namespace AcessaCity.API.V1.Controllers
             IReportService service,
             IMapper mapper,
             IGeolocationService geolocation,
-            ICityRepository cityRepository) : base(notifier)
+            ICityRepository cityRepository,
+            IReportInProgressService reportInProgressService) : base(notifier)
         {
             _service = service;
             _repository = repository;
             _mapper = mapper;
             _geolocation = geolocation;
             _cityRepository = cityRepository;
+            _reportInProgressService = reportInProgressService;
         }
 
         [HttpGet("{id:guid}")]
@@ -175,5 +178,21 @@ namespace AcessaCity.API.V1.Controllers
             
             return Ok(progress);
         }
+
+        [HttpPost("end-progress")]
+        public async Task<ActionResult> ReportStartProgress(
+            ReportEndProgressDto progress,
+            [FromServices]ReportStatusUpdate updater)
+        {
+            Guid statusInProgress = Guid.Parse("ee6dda1a-51e2-4041-9d21-7f5c8f2e94b0");
+            await updater.StatusUpdate(progress.UserId, progress.ReportId, statusInProgress, progress.Description);
+
+            var inProgress = await _reportInProgressService.GetByReportId(progress.ReportId);
+            inProgress.DoneDate = progress.EndDate;
+            inProgress.OwnerUserId = progress.UserId;
+            await _reportInProgressService.Update(inProgress);
+                        
+            return Ok(progress);
+        }        
     }
 }

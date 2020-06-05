@@ -11,5 +11,6 @@ namespace AcessaCity.Business.Interfaces.Service
         Task Remove(ReportInProgress report);
         
         Task<ReportInProgress> GetById(Guid id);
+        Task<ReportInProgress> GetByReportId(Guid reportId);
     }
 }

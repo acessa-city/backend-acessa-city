@@ -59,17 +59,13 @@ namespace AcessaCity.Business.Services
                 if (apiReturn.Results[0].Locations.Count() > 0)
                 {                    
                     VIACEPResult viaCep = await this.GetVIACEPInfo(apiReturn.Results[0].Locations[0].PostalCode);
-                    if (viaCep == null)
-                    {
-                        return null;
-                    }
                     return new CityResultFromGeolocation()
                     {
                         Name = apiReturn.Results[0].Locations[0].AdminArea5,
                         StateName = apiReturn.Results[0].Locations[0].AdminArea3,
                         ZIPCode = apiReturn.Results[0].Locations[0].PostalCode,
-                        Street = viaCep.Logradouro,
-                        Neighborhood = viaCep.Bairro
+                        Street = viaCep?.Logradouro,
+                        Neighborhood = viaCep?.Bairro
                     };
                 }
             }

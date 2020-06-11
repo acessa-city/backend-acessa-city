@@ -8,6 +8,7 @@ namespace AcessaCity.Business.Interfaces.Service
     {
         Task Add(CityHall category);
         Task Update(CityHall category);
-        Task Remove(CityHall id);         
+        Task Remove(CityHall id);
+        Task Inactive(Guid cityHallId);   
     }
 }

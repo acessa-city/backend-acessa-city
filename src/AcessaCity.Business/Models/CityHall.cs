@@ -15,6 +15,7 @@ namespace AcessaCity.Business.Models
         public string ZIPCode { get; set; }
         public string Email { get; set; }
         public bool Verified { get; set; }
+        public bool Active { get; set; }
 
         [ForeignKey("CityId")]
         public virtual City City { get; set; }

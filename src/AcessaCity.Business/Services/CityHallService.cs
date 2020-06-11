@@ -87,6 +87,22 @@ namespace AcessaCity.Business.Services
             _repository?.Dispose();
         }
 
+        public async Task Inactive(Guid cityHallId)
+        {
+            CityHall cityHall = await _repository.GetById(cityHallId);
+            if (cityHall != null)
+            {
+                cityHall.Active = false;
+                foreach (var item in await _userService.AllUsersByCityHallId(cityHallId))
+                {
+                    item.Active = false;
+                    await _userService.Update(item);
+                }
+
+                await _repository.Update(cityHall);
+            }
+        }
+
         public Task Remove(CityHall id)
         {
             throw new System.NotImplementedException();

@@ -117,5 +117,12 @@ namespace AcessaCity.API.V1.Controllers
                 await _userService.AllUsersByCityHallId(cityhallId)
             );
         }
+
+        [HttpDelete("{cityHallId:guid}")]
+        public async Task<ActionResult> Inactive(Guid cityHallId)
+        {
+            await _service.Inactive(cityHallId);
+            return CustomResponse();
+        }
     }
 }

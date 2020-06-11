@@ -8,6 +8,7 @@ namespace AcessaCity.Business.Models
     {
         public Guid? CategoryId { get; set; }
         public string Name { get; set; }
+        public bool Active { get; set; }
 
         //EF Relations
         [ForeignKey("CategoryId")]

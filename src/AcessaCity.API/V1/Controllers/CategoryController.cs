@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.API.Controllers;
 using AcessaCity.API.Dtos;
@@ -39,7 +40,8 @@ namespace AcessaCity.API.V1.Controllers
         [Authorize]
         public async Task<IEnumerable<CategoryDto>> Get()
         {
-            return _mapper.Map<IEnumerable<CategoryDto>>(await _repository.GetAll());        
+            var categories = await _repository.GetAll();
+            return _mapper.Map<IEnumerable<CategoryDto>>(categories.Where(x => x.Active == true));        
         }
 
         [HttpGet("{id:guid}", Name = "GetCategory")]
@@ -60,6 +62,7 @@ namespace AcessaCity.API.V1.Controllers
         {
             Category newCategory = new Category();
             newCategory.Name = category.Name;
+            newCategory.Active = true;
             
             if (category.CategoryId != Guid.Empty)
             {

@@ -61,11 +61,13 @@ namespace AcessaCity.Business.Services
             var fbUser = await FirebaseAuth.DefaultInstance.CreateUserAsync(args);
             if (fbUser != null)
             {
+                    (string name, string lastName) fullName = this.ExtraxctName(fbUser.DisplayName);
                     newUser = new User() {
                     FirebaseUserId = fbUser.Uid,
                     Email = fbUser.Email,
                     CreationDate = DateTime.Now,
-                    FirstName = fbUser.DisplayName,
+                    FirstName = fullName.name,
+                    LastName = fullName.lastName,
                     ProfileUrl = fbUser.PhotoUrl,
                     CityHallId = user.CityHallId
                 };
@@ -171,6 +173,17 @@ namespace AcessaCity.Business.Services
                 PhotoUrl = photo
             };             
             return await _firebaseAuth.UpdateUserAsync(args) != null;
+        }
+
+        private (string name, string lastName) ExtraxctName(string fullName)
+        {
+            string[] newName = fullName.Split(" ", 2);
+            var name = newName[0];
+            string lastName = null;
+            if (newName.Length > 1)
+                lastName = newName[1];
+
+            return (name: name, lastName: lastName);
         }
     }
 }

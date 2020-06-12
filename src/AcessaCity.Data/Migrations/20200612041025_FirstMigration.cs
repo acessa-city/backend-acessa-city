@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AcessaCity.Data.Migrations
 {
-    public partial class FirstAppMigration : Migration
+    public partial class FirstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace AcessaCity.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     CategoryId = table.Column<Guid>(nullable: true),
-                    Name = table.Column<string>(type: "varchar(120)", nullable: false)
+                    Name = table.Column<string>(type: "varchar(120)", nullable: false),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,7 +36,8 @@ namespace AcessaCity.Data.Migrations
                     Denied = table.Column<bool>(nullable: false, defaultValue: false),
                     Approved = table.Column<bool>(nullable: false, defaultValue: false),
                     Review = table.Column<bool>(nullable: false, defaultValue: false),
-                    InProgress = table.Column<bool>(nullable: false, defaultValue: false)
+                    InProgress = table.Column<bool>(nullable: false, defaultValue: false),
+                    IsDone = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,7 +117,8 @@ namespace AcessaCity.Data.Migrations
                     Neighborhood = table.Column<string>(type: "varchar(120)", nullable: true),
                     ZIPCode = table.Column<string>(type: "varchar(45)", nullable: true),
                     Email = table.Column<string>(nullable: true),
-                    Verified = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                    Verified = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -430,25 +433,71 @@ namespace AcessaCity.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserNotifications",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false),
+                    Title = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    ReportId = table.Column<Guid>(nullable: true),
+                    InteractionHistoryId = table.Column<Guid>(nullable: true),
+                    Read = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserNotifications", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserNotifications_InteractionHistories_InteractionHistoryId",
+                        column: x => x.InteractionHistoryId,
+                        principalTable: "InteractionHistories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserNotifications_Report_ReportId",
+                        column: x => x.ReportId,
+                        principalTable: "Report",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
-                table: "ReportStatus",
-                columns: new[] { "Id", "Approved", "Description" },
-                values: new object[] { new Guid("96afa0df-8ad9-4a44-a726-70582b7bd010"), true, "Aprovado" });
+                table: "Categories",
+                columns: new[] { "Id", "Active", "CategoryId", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("2695bd36-45d4-4135-a1c5-488e592788e5"), true, null, "Pavimentação danificada" },
+                    { new Guid("5aa23f4c-e480-462b-b402-966ea8bab551"), true, null, "Sinalização de trânsito" },
+                    { new Guid("47632f40-852f-4957-9813-34f1464a1849"), true, null, "Mecânismos de mobilidade" },
+                    { new Guid("a255e104-4b55-4954-aee9-07513da17e44"), true, null, "Vandalismo" },
+                    { new Guid("6a47411f-eac3-460b-8ede-b2e1a03137cd"), true, null, "Riscos à integridade física" }
+                });
 
             migrationBuilder.InsertData(
                 table: "ReportStatus",
-                columns: new[] { "Id", "Denied", "Description" },
-                values: new object[] { new Guid("52ccae2e-af86-4fcc-82ea-9234088dbedf"), true, "Negado" });
+                columns: new[] { "Id", "Description", "IsDone", "Review" },
+                values: new object[] { new Guid("48cf5f0f-40c9-4a79-9627-6fd22018f72c"), "Em análise", false, true });
 
             migrationBuilder.InsertData(
                 table: "ReportStatus",
-                columns: new[] { "Id", "Description", "InProgress" },
-                values: new object[] { new Guid("c37d9588-1875-44dd-8cf1-6781de7533c3"), "Em progresso", true });
+                columns: new[] { "Id", "Description", "InProgress", "IsDone" },
+                values: new object[] { new Guid("c37d9588-1875-44dd-8cf1-6781de7533c3"), "Em progresso", true, false });
 
             migrationBuilder.InsertData(
                 table: "ReportStatus",
-                columns: new[] { "Id", "Description", "Review" },
-                values: new object[] { new Guid("48cf5f0f-40c9-4a79-9627-6fd22018f72c"), "Em análise", true });
+                columns: new[] { "Id", "Description", "IsDone" },
+                values: new object[] { new Guid("ee6dda1a-51e2-4041-9d21-7f5c8f2e94b0"), "Finalizada", false });
+
+            migrationBuilder.InsertData(
+                table: "ReportStatus",
+                columns: new[] { "Id", "Approved", "Description", "IsDone" },
+                values: new object[] { new Guid("96afa0df-8ad9-4a44-a726-70582b7bd010"), true, "Aprovado", false });
+
+            migrationBuilder.InsertData(
+                table: "ReportStatus",
+                columns: new[] { "Id", "Denied", "Description", "IsDone" },
+                values: new object[] { new Guid("52ccae2e-af86-4fcc-82ea-9234088dbedf"), true, "Negado", false });
 
             migrationBuilder.InsertData(
                 table: "Roles",
@@ -484,7 +533,14 @@ namespace AcessaCity.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Cities",
                 columns: new[] { "Id", "IBGECode", "Latitude", "Longitude", "Name", "StateId" },
-                values: new object[] { new Guid("7ae590f1-c6a4-4bb3-91bf-1e82ea45bb4b"), 3509502, -22.8920565m, -47.2079794m, "Campinas", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") });
+                values: new object[,]
+                {
+                    { new Guid("7ae590f1-c6a4-4bb3-91bf-1e82ea45bb4b"), 3509502, -22.9064m, -47.0616m, "Campinas", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") },
+                    { new Guid("d9805d6e-4048-4783-8497-b8d4a237ef50"), 3552403, -22.8216m, -47.2664m, "Sumaré", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") },
+                    { new Guid("1c3ca2cf-1e8e-4320-9868-65dc8d447315"), 3519071, -22.8577m, -47.2203m, "Hortolândia", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") },
+                    { new Guid("6b4faa2d-22ff-47c9-9023-cf9c45bb3184"), 3536505, -22.7617m, -47.1541m, "Paulínia", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") },
+                    { new Guid("b79016eb-3a9d-4f67-ac79-6c6539d99327"), 3556206, -22.9712m, -46.9964m, "Valinhos", new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661") }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
@@ -617,6 +673,16 @@ namespace AcessaCity.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserNotifications_InteractionHistoryId",
+                table: "UserNotifications",
+                column: "InteractionHistoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserNotifications_ReportId",
+                table: "UserNotifications",
+                column: "ReportId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserRoles_RoleId",
                 table: "UserRoles",
                 column: "RoleId");
@@ -648,6 +714,9 @@ namespace AcessaCity.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ReportComments");
+
+            migrationBuilder.DropTable(
+                name: "UserNotifications");
 
             migrationBuilder.DropTable(
                 name: "UserRoles");

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AcessaCity.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200610010323_AddActiveColumnCityHall")]
-    partial class AddActiveColumnCityHall
+    [Migration("20200612041025_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,9 @@ namespace AcessaCity.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<Guid?>("CategoryId")
                         .HasColumnType("char(36)");
 
@@ -37,6 +40,38 @@ namespace AcessaCity.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("2695bd36-45d4-4135-a1c5-488e592788e5"),
+                            Active = true,
+                            Name = "Pavimentação danificada"
+                        },
+                        new
+                        {
+                            Id = new Guid("5aa23f4c-e480-462b-b402-966ea8bab551"),
+                            Active = true,
+                            Name = "Sinalização de trânsito"
+                        },
+                        new
+                        {
+                            Id = new Guid("47632f40-852f-4957-9813-34f1464a1849"),
+                            Active = true,
+                            Name = "Mecânismos de mobilidade"
+                        },
+                        new
+                        {
+                            Id = new Guid("a255e104-4b55-4954-aee9-07513da17e44"),
+                            Active = true,
+                            Name = "Vandalismo"
+                        },
+                        new
+                        {
+                            Id = new Guid("6a47411f-eac3-460b-8ede-b2e1a03137cd"),
+                            Active = true,
+                            Name = "Riscos à integridade física"
+                        });
                 });
 
             modelBuilder.Entity("AcessaCity.Business.Models.City", b =>
@@ -73,9 +108,45 @@ namespace AcessaCity.Data.Migrations
                         {
                             Id = new Guid("7ae590f1-c6a4-4bb3-91bf-1e82ea45bb4b"),
                             IBGECode = 3509502,
-                            Latitude = -22.8920565m,
-                            Longitude = -47.2079794m,
+                            Latitude = -22.9064m,
+                            Longitude = -47.0616m,
                             Name = "Campinas",
+                            StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
+                        },
+                        new
+                        {
+                            Id = new Guid("d9805d6e-4048-4783-8497-b8d4a237ef50"),
+                            IBGECode = 3552403,
+                            Latitude = -22.8216m,
+                            Longitude = -47.2664m,
+                            Name = "Sumaré",
+                            StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
+                        },
+                        new
+                        {
+                            Id = new Guid("1c3ca2cf-1e8e-4320-9868-65dc8d447315"),
+                            IBGECode = 3519071,
+                            Latitude = -22.8577m,
+                            Longitude = -47.2203m,
+                            Name = "Hortolândia",
+                            StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
+                        },
+                        new
+                        {
+                            Id = new Guid("6b4faa2d-22ff-47c9-9023-cf9c45bb3184"),
+                            IBGECode = 3536505,
+                            Latitude = -22.7617m,
+                            Longitude = -47.1541m,
+                            Name = "Paulínia",
+                            StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
+                        },
+                        new
+                        {
+                            Id = new Guid("b79016eb-3a9d-4f67-ac79-6c6539d99327"),
+                            IBGECode = 3556206,
+                            Latitude = -22.9712m,
+                            Longitude = -46.9964m,
+                            Name = "Valinhos",
                             StateId = new Guid("b545ceb9-fbde-43c9-bbcc-de62a49e1661")
                         });
                 });

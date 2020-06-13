@@ -38,7 +38,7 @@ namespace AcessaCity.API.V1.Controllers
         [HttpGet]
         public async Task<IEnumerable<CityHallDto>> Get()
         {
-            return _mapper.Map<IEnumerable<CityHallDto>>(await _repository.GetAll());
+            return _mapper.Map<IEnumerable<CityHallDto>>(await _service.GetAll());
         }
 
         [HttpGet("{id:guid}")]

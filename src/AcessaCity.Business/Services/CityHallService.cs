@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AcessaCity.Business.Interfaces;
 using AcessaCity.Business.Interfaces.Repository;
@@ -40,6 +41,8 @@ namespace AcessaCity.Business.Services
 
                 return;
             }
+
+            cityHall.Active = true;
 
             await _repository.Add(cityHall);
 
@@ -85,6 +88,13 @@ namespace AcessaCity.Business.Services
         public void Dispose()
         {
             _repository?.Dispose();
+        }
+
+        public async Task<IList<CityHall>> GetAll()
+        {
+            var list = await _repository.GetAll();
+
+            return list.Where(x => x.Active == true).ToList();
         }
 
         public async Task Inactive(Guid cityHallId)

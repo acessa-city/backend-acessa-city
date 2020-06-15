@@ -193,6 +193,18 @@ namespace AcessaCity.API.V1.Controllers
             await _reportInProgressService.Update(inProgress);
                         
             return Ok(progress);
+        }
+
+        [HttpGet("city/{cityId:guid}/dashboard-info")]
+        public ActionResult<DashboardReportInfo> GetDashInfo(Guid cityId)
+        {
+            return CustomResponse(_service.GetDashboardInfo(cityId));
+        }
+
+        [HttpGet("user/{userId:guid}/dashboard-info")]
+        public ActionResult<DashboardReportInfo> GetDashUserInfo(Guid userId)
+        {
+            return CustomResponse(_service.GetDashboardInfoByUser(userId));
         }        
     }
 }

@@ -8,6 +8,8 @@ namespace AcessaCity.Business.Interfaces.Service
     {
         Task Add(Report report);
         Task Update(Report report);
-        Task Remove(Report id);         
+        Task Remove(Report id);
+        DashboardReportInfo GetDashboardInfo(Guid cityId);
+        DashboardReportInfo GetDashboardInfoByUser(Guid userId);
     }
 }

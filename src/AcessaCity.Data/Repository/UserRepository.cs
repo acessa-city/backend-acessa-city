@@ -34,6 +34,7 @@ namespace AcessaCity.Data.Repository
                 && user.Id != userId
                 && user.Active == true
                 join role in userRoles on true equals role.Role.Name == "coordinator"
+                where role.UserId == user.Id
             select(role.User);
 
             return users;
